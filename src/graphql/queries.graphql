@@ -1,0 +1,10 @@
+#import "./fragments.graphql"
+
+query celebrities {
+  celebrities {
+    id
+    name
+    birthPlace
+    dateOfBirth
+  }
+}

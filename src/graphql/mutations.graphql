@@ -1,0 +1,8 @@
+#import "./fragments.graphql"
+
+mutation createCelebrity($celebrity: CreateCelebrityInput!) {
+  createCelebrity(celebrity: $celebrity) {
+    id
+    name
+  }
+}

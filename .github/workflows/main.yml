@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install project
+        run: yarn install
+
+      - name: Build the project
+        run: yarn build
+
+      - name: Run lint
+        run: yarn lint
+
+      - name: Run prettier
+        run: yarn prettier
+
+      - name: Run tsc
+        uses: icrawl/action-tsc@v1
+
+      # - name: Run tests
+      #   run: yarn test

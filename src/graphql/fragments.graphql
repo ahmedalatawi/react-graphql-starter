@@ -1,0 +1,9 @@
+fragment Celebrity on Celebrity {
+  id
+  name
+  bio
+  dateOfBirth
+  birthPlace
+  photoUrl
+  editable
+}

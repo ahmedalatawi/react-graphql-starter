@@ -1,0 +1,75 @@
+@use '../config' as *;
+
+.app-btn-disabled {
+  border: 2px solid $neutral-200;
+  background-color: $neutral-150;
+  color: $neutral-600;
+  pointer-events: none;
+}
+
+.app-btn {
+  padding: 0.7rem 1rem;
+  background-color: transparent;
+  border: 2px solid $neutral-200;
+  cursor: pointer;
+  display: flex;
+  &:hover {
+    background-color: $neutral-100;
+  }
+  &:focus {
+    outline: 2px solid $primary-700;
+    outline-offset: 2px;
+  }
+  &:disabled {
+    @extend .app-btn-disabled;
+  }
+}
+
+.app-btn-primary {
+  border: 2px solid $primary-700;
+  background-color: $primary-700;
+  color: $neutral-0;
+  &:hover {
+    background-color: $primary-600;
+  }
+  &:disabled {
+    @extend .app-btn-disabled;
+  }
+}
+.app-btn-success {
+  border: 2px solid $success-600;
+  background-color: $success-600;
+  color: $neutral-0;
+  &:hover {
+    background-color: $success-500;
+  }
+  &:disabled {
+    @extend .app-btn-disabled;
+  }
+}
+.app-btn-danger {
+  border: 2px solid $danger-600;
+  background-color: $danger-600;
+  color: $neutral-0;
+  &:hover {
+    background-color: $danger-500;
+  }
+  &:disabled {
+    @extend .app-btn-disabled;
+  }
+}
+
+.app-btn-rounded {
+  border-radius: 0.4rem;
+}
+.app-btn-circle {
+  border-radius: 50rem;
+}
+
+.app-btn-lg {
+  padding: 1rem 1.6rem;
+}
+.app-btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
