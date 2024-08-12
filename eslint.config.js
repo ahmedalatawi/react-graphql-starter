@@ -7,7 +7,7 @@ export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   { languageOptions: { globals: globals.browser } },
   {
-    ignores: ['src/generated/'],
+    ignores: ['src/generated/', 'dist'],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
