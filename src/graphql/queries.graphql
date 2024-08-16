@@ -6,5 +6,6 @@ query celebrities {
     name
     birthPlace
     dateOfBirth
+    photoUrl
   }
 }

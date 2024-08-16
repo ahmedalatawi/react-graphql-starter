@@ -99,7 +99,7 @@ export type CreateCelebrityMutation = { __typename?: 'Mutation', createCelebrity
 export type CelebritiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CelebritiesQuery = { __typename?: 'Query', celebrities?: Array<{ __typename?: 'Celebrity', id: string, name: string, birthPlace?: string | null, dateOfBirth: any } | null> | null };
+export type CelebritiesQuery = { __typename?: 'Query', celebrities?: Array<{ __typename?: 'Celebrity', id: string, name: string, birthPlace?: string | null, dateOfBirth: any, photoUrl?: string | null } | null> | null };
 
 export const CelebrityFragmentDoc = gql`
     fragment Celebrity on Celebrity {
@@ -153,6 +153,7 @@ export const CelebritiesDocument = gql`
     name
     birthPlace
     dateOfBirth
+    photoUrl
   }
 }
     `;
