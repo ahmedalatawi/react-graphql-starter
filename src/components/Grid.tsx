@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Grid = ({ items }: Props) => (
-  <div className="grid">
+  <div className="app-grid">
     {items.map((item) => (
       <GridItem key={item.id} item={item} />
     ))}

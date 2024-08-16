@@ -8,7 +8,7 @@ function GridItem({ item }: Props) {
   const { name, photoUrl } = item
 
   return (
-    <div className="grid-item">
+    <div className="app-grid-item">
       <img src={photoUrl} alt={name} className="img" />
       <h3>{name}</h3>
     </div>
