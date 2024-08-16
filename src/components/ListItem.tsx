@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ListItem = memo(({ item, onClick }: Props) => (
-  <li className="list-item" onClick={() => onClick(item)}>
+  <li className="app-list-item" onClick={() => onClick(item)}>
     {item.name}
   </li>
 ))

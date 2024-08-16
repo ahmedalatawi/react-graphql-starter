@@ -7,7 +7,7 @@ interface Props {
 }
 
 const List = ({ items, onSelect }: Props) => (
-  <ul className="list">
+  <ul className="app-list">
     {items.map((item) => (
       <ListItem key={item.id} item={item} onClick={onSelect} />
     ))}
