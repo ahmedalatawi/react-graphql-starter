@@ -10,7 +10,7 @@ const Tabs = ({ children }: Props) => {
 
   return (
     <>
-      <ul className="tabs">
+      <ul className="app-tabs">
         {children.map((tab, index) => (
           <TabHeader
             key={index}

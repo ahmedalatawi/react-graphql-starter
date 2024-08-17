@@ -7,7 +7,7 @@ interface Props {
 
 const TabHeader = ({ index, title, isActive, setSelectedTab }: Props) => (
   <li
-    className={`tab-header ${isActive ? 'active' : ''}`}
+    className={`app-tab-header ${isActive ? 'active' : ''}`}
     onClick={() => setSelectedTab(index)}
   >
     {title}

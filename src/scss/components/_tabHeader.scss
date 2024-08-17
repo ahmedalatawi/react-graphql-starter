@@ -1,0 +1,17 @@
+@use '../config' as *;
+
+.app-tab-header {
+  color: $neutral-300;
+  font-size: 1rem;
+  margin: 8px 5px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: $neutral-0;
+  transition: background-color 0.3s ease;
+
+  &.active {
+    background-color: $neutral-100;
+    color: $neutral-800;
+  }
+}
