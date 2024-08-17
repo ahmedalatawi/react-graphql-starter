@@ -1,5 +1,5 @@
 // Main styles
-@use './config';
+@use './config' as *;
 @use './components';
 
 * {
@@ -20,11 +20,5 @@ body {
 .title {
   margin: 0;
   text-align: center;
-  color: darkgreen;
-}
-
-.img {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
+  color: $neutral-800;
 }

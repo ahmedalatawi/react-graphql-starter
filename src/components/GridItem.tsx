@@ -9,7 +9,7 @@ function GridItem({ item }: Props) {
 
   return (
     <div className="app-grid-item">
-      <img src={photoUrl} alt={name} className="img" />
+      <img src={photoUrl} alt={name} loading="lazy" />
       <h3>{name}</h3>
     </div>
   )
