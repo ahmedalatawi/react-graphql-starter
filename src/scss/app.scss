@@ -22,3 +22,11 @@ body {
   text-align: center;
   color: $neutral-800;
 }
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 20px 0;
+}

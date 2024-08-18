@@ -5,20 +5,12 @@ import Tab from './components/Tab'
 import List from './components/List'
 import type { Item } from './types'
 import Grid from './components/Grid'
+import Button from './components/Button'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
 
   console.log(data)
-
-  // const formatDate = (date: string) => {
-  //   return new Date(date).toLocaleDateString('en-US', {
-  //     timeZone: 'UTC',
-  //     month: 'long',
-  //     day: 'numeric',
-  //     year: 'numeric',
-  //   })
-  // }
 
   const handleSelect = useCallback((item: Item) => {
     console.log(item)
@@ -38,7 +30,10 @@ const Celebrities = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Celebrities</h1>
+      <div className="header">
+        <h1 className="title">Celebrities</h1>
+        <Button shape="rounded">Add celebrity</Button>
+      </div>
       <Tabs>
         <Tab title="List view">
           <List items={celebrities} onSelect={handleSelect} />
