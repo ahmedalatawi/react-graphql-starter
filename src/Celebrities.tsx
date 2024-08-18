@@ -6,6 +6,7 @@ import List from '@/components/List'
 import type { Item } from '@/types'
 import Grid from '@/components/Grid'
 import Button from '@/components/Button'
+import Spinner from '@/components/Spinner'
 import { formatDate } from '@/utils/formatDate'
 
 const Celebrities = () => {
@@ -27,24 +28,30 @@ const Celebrities = () => {
       }))
     : []
 
-  if (loading) return <p>Loading...</p>
-
   if (error) return <p>Error: ${error.message}</p>
 
   return (
     <div className="container">
       <div className="header">
         <h1 className="title">Celebrities</h1>
-        <Button shape="rounded">Add celebrity</Button>
+        <Button shape="rounded" disabled={loading}>
+          Add celebrity
+        </Button>
       </div>
-      <Tabs>
-        <Tab title="List view">
-          <List items={celebrities} onSelect={handleSelect} />
-        </Tab>
-        <Tab title="Grid view">
-          <Grid items={celebrities} />
-        </Tab>
-      </Tabs>
+      {loading ? (
+        <div className="spinner-container">
+          <Spinner />
+        </div>
+      ) : (
+        <Tabs>
+          <Tab title="List view">
+            <List items={celebrities} onSelect={handleSelect} />
+          </Tab>
+          <Tab title="Grid view">
+            <Grid items={celebrities} />
+          </Tab>
+        </Tabs>
+      )}
     </div>
   )
 }
