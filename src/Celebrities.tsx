@@ -1,11 +1,12 @@
 import { useCelebritiesQuery } from '@/generated/graphql'
 import { useCallback } from 'react'
-import Tabs from './components/Tabs'
-import Tab from './components/Tab'
-import List from './components/List'
-import type { Item } from './types'
-import Grid from './components/Grid'
-import Button from './components/Button'
+import Tabs from '@/components/Tabs'
+import Tab from '@/components/Tab'
+import List from '@/components/List'
+import type { Item } from '@/types'
+import Grid from '@/components/Grid'
+import Button from '@/components/Button'
+import { formatDate } from '@/utils/formatDate'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
@@ -20,6 +21,8 @@ const Celebrities = () => {
     ? data?.celebrities?.map((cel) => ({
         id: cel?.id ?? '',
         name: cel?.name ?? '',
+        dateOfBirth: cel?.dateOfBirth ? formatDate(cel.dateOfBirth) : '',
+        birthPlace: cel?.birthPlace ?? '',
         photoUrl: cel?.photoUrl ?? '',
       }))
     : []
