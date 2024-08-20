@@ -1,0 +1,77 @@
+@use '../config' as *;
+
+.app-modal-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s all;
+  background-color: $backdrop;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &.center {
+    align-items: center;
+
+    .app-modal {
+      transition: 0.2s all;
+      transform: translateY(-4rem);
+
+      &.active {
+        margin: 0;
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.app-modal {
+  background-color: $neutral-0;
+  transition-delay: 0.4s;
+  transition: 0.2s all ease-in-out;
+  height: fit-content;
+  border-radius: 0.4rem;
+
+  &.active {
+    margin-top: 2rem;
+  }
+}
+
+.app-modal-header {
+  position: relative;
+  padding: 1rem;
+  border-bottom: 1px solid $neutral-150;
+
+  .app-modal-close {
+    font-size: 1.4rem;
+    position: absolute;
+    top: 50%;
+    right: 0.6rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: $neutral-500;
+
+    &:hover {
+      color: $neutral-900;
+    }
+  }
+}
+
+.app-modal-content {
+  padding: 0.6rem 1rem;
+}
+
+.app-modal-footer {
+  padding: 0 1rem;
+  padding-bottom: 0.6rem;
+}

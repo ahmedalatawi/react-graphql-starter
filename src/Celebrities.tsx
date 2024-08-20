@@ -1,5 +1,5 @@
 import { useCelebritiesQuery } from '@/generated/graphql'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import Tabs from '@/components/Tabs'
 import Tab from '@/components/Tab'
 import List from '@/components/List'
@@ -8,9 +8,19 @@ import Grid from '@/components/Grid'
 import Button from '@/components/Button'
 import Spinner from '@/components/Spinner'
 import { formatDate } from '@/utils/formatDate'
+import Modal from '@/components/Modal'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+  const hideModal = () => {
+    setIsModalVisible(false)
+  }
 
   console.log(data)
 
@@ -34,7 +44,24 @@ const Celebrities = () => {
     <div className="container">
       <div className="header">
         <h1 className="title">Celebrities</h1>
-        <Button shape="rounded" disabled={loading}>
+        <Modal
+          title="Add celebrity"
+          visible={isModalVisible}
+          onClose={hideModal}
+          footer={
+            <div className="modal-footer">
+              <Button size="sm" onClick={hideModal}>
+                Cancel
+              </Button>
+              <Button variant="primary" size="sm">
+                Save
+              </Button>
+            </div>
+          }
+        >
+          <p style={{ width: 400 }}>Modal content</p>
+        </Modal>
+        <Button shape="rounded" disabled={loading} onClick={showModal}>
           Add celebrity
         </Button>
       </div>
