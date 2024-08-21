@@ -9,18 +9,16 @@ import Button from '@/components/Button'
 import Spinner from '@/components/Spinner'
 import { formatDate } from '@/utils/formatDate'
 import Modal from '@/components/Modal'
+import { Input } from '@/components/Input'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const showModal = () => {
-    setIsModalVisible(true)
-  }
-  const hideModal = () => {
-    setIsModalVisible(false)
-  }
+  const showModal = () => setIsModalVisible(true)
+
+  const hideModal = () => setIsModalVisible(false)
 
   console.log(data)
 
@@ -45,21 +43,25 @@ const Celebrities = () => {
       <div className="header">
         <h1 className="title">Celebrities</h1>
         <Modal
+          modalStyles={{ width: '32rem' }}
           title="Add celebrity"
           visible={isModalVisible}
           onClose={hideModal}
           footer={
             <div className="modal-footer">
-              <Button size="sm" onClick={hideModal}>
+              <Button size="sm" shape="rounded" onClick={hideModal}>
                 Cancel
               </Button>
-              <Button variant="primary" size="sm">
+              <Button variant="primary" size="sm" shape="rounded">
                 Save
               </Button>
             </div>
           }
         >
-          <p style={{ width: 400 }}>Modal content</p>
+          <form className="celebrity-form">
+            <Input type="text" placeholder="Name" label="Name" />
+            <Input type="date" label="Birth date" />
+          </form>
         </Modal>
         <Button shape="rounded" disabled={loading} onClick={showModal}>
           Add celebrity
