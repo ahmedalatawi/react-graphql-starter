@@ -66,6 +66,7 @@ const Celebrities = () => {
               placeholder="City, state, country"
               label="Birth place"
             />
+            <Input type="text" placeholder="Photo link" label="Photo url" />
           </form>
         </Modal>
         <Button shape="rounded" disabled={loading} onClick={showModal}>
