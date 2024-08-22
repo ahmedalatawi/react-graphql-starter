@@ -61,6 +61,11 @@ const Celebrities = () => {
           <form className="celebrity-form">
             <Input type="text" placeholder="Name" label="Name" />
             <Input type="date" label="Birth date" />
+            <Input
+              type="text"
+              placeholder="City, state, country"
+              label="Birth place"
+            />
           </form>
         </Modal>
         <Button shape="rounded" disabled={loading} onClick={showModal}>
