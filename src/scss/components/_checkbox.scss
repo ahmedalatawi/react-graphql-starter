@@ -1,0 +1,51 @@
+@use '../config' as *;
+
+.app-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.app-checkbox input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 0.15em;
+  margin-right: 0.5em;
+  border: 1px solid $neutral-200;
+  outline: none;
+  cursor: pointer;
+
+  &.checked {
+    background-color: $neutral-0;
+    position: relative;
+  }
+
+  &.checked::before {
+    content: '\2714';
+    font-size: 1.2em;
+    color: $neutral-700;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+  }
+
+  &.checked:disabled:before {
+    color: $neutral-300;
+  }
+
+  &:disabled {
+    border-color: $neutral-150;
+    background-color: $neutral-150;
+  }
+
+  &:disabled + span {
+    color: $neutral-200;
+  }
+}
+
+.app-checkbox span {
+  font-size: 0.9rem;
+  color: $neutral-700;
+}

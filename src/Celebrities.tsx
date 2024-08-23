@@ -10,11 +10,13 @@ import Spinner from '@/components/Spinner'
 import { formatDate } from '@/utils/formatDate'
 import Modal from '@/components/Modal'
 import { Input } from '@/components/Input'
+import Checkbox from '@/components/Checkbox'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
 
   const showModal = () => setIsModalVisible(true)
 
@@ -67,6 +69,13 @@ const Celebrities = () => {
               label="Birth place"
             />
             <Input type="text" placeholder="Photo link" label="Photo url" />
+
+            <Checkbox
+              label="Editable"
+              checked={isChecked}
+              onCheck={setIsChecked}
+              disabled={false}
+            />
           </form>
         </Modal>
         <Button shape="rounded" disabled={loading} onClick={showModal}>
