@@ -10,7 +10,7 @@ export interface Props extends HTMLProps<HTMLInputElement> {
   rightIcon?: ReactNode
 }
 
-export const Input = ({
+const Input = ({
   label,
   type,
   error,
@@ -48,3 +48,5 @@ export const Input = ({
     </div>
   )
 }
+
+export default Input

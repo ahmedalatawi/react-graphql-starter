@@ -1,16 +1,18 @@
 import { useCelebritiesQuery } from '@/generated/graphql'
 import { useCallback, useState } from 'react'
-import Tabs from '@/components/Tabs'
-import Tab from '@/components/Tab'
-import List from '@/components/List'
 import type { Item } from '@/types'
-import Grid from '@/components/Grid'
-import Button from '@/components/Button'
-import Spinner from '@/components/Spinner'
 import { formatDate } from '@/utils/formatDate'
-import Modal from '@/components/Modal'
-import { Input } from '@/components/Input'
-import Checkbox from '@/components/Checkbox'
+import {
+  Button,
+  Checkbox,
+  Grid,
+  Input,
+  List,
+  Modal,
+  Spinner,
+  Tab,
+  Tabs,
+} from '@/components'
 
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
