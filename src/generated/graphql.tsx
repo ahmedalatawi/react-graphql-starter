@@ -101,6 +101,13 @@ export type CelebritiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CelebritiesQuery = { __typename?: 'Query', celebrities?: Array<{ __typename?: 'Celebrity', id: string, name: string, birthPlace?: string | null, dateOfBirth: any, photoUrl?: string | null } | null> | null };
 
+export type CelebrityQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type CelebrityQuery = { __typename?: 'Query', celebrity?: { __typename?: 'Celebrity', id: string, name: string, bio?: string | null, dateOfBirth: any, birthPlace?: string | null, photoUrl?: string | null, editable?: boolean | null } | null };
+
 export const CelebrityFragmentDoc = gql`
     fragment Celebrity on Celebrity {
   id
@@ -189,3 +196,43 @@ export type CelebritiesQueryHookResult = ReturnType<typeof useCelebritiesQuery>;
 export type CelebritiesLazyQueryHookResult = ReturnType<typeof useCelebritiesLazyQuery>;
 export type CelebritiesSuspenseQueryHookResult = ReturnType<typeof useCelebritiesSuspenseQuery>;
 export type CelebritiesQueryResult = Apollo.QueryResult<CelebritiesQuery, CelebritiesQueryVariables>;
+export const CelebrityDocument = gql`
+    query celebrity($id: ID!) {
+  celebrity(id: $id) {
+    ...Celebrity
+  }
+}
+    ${CelebrityFragmentDoc}`;
+
+/**
+ * __useCelebrityQuery__
+ *
+ * To run a query within a React component, call `useCelebrityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCelebrityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCelebrityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCelebrityQuery(baseOptions: Apollo.QueryHookOptions<CelebrityQuery, CelebrityQueryVariables> & ({ variables: CelebrityQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CelebrityQuery, CelebrityQueryVariables>(CelebrityDocument, options);
+      }
+export function useCelebrityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CelebrityQuery, CelebrityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CelebrityQuery, CelebrityQueryVariables>(CelebrityDocument, options);
+        }
+export function useCelebritySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CelebrityQuery, CelebrityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CelebrityQuery, CelebrityQueryVariables>(CelebrityDocument, options);
+        }
+export type CelebrityQueryHookResult = ReturnType<typeof useCelebrityQuery>;
+export type CelebrityLazyQueryHookResult = ReturnType<typeof useCelebrityLazyQuery>;
+export type CelebritySuspenseQueryHookResult = ReturnType<typeof useCelebritySuspenseQuery>;
+export type CelebrityQueryResult = Apollo.QueryResult<CelebrityQuery, CelebrityQueryVariables>;

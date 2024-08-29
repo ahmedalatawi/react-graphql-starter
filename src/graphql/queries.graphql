@@ -9,3 +9,9 @@ query celebrities {
     photoUrl
   }
 }
+
+query celebrity($id: ID!) {
+  celebrity(id: $id) {
+    ...Celebrity
+  }
+}
