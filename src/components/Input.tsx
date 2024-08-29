@@ -1,6 +1,6 @@
 import type { HTMLProps, ReactNode } from 'react'
 
-export interface Props extends HTMLProps<HTMLInputElement> {
+interface Props extends HTMLProps<HTMLInputElement> {
   type: 'date' | 'number' | 'password' | 'text' | 'email'
   disabled?: boolean
   label?: string

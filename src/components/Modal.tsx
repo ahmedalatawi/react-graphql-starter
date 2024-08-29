@@ -1,6 +1,6 @@
 import type { CSSProperties, MouseEvent, ReactNode } from 'react'
 
-export interface Props {
+interface Props {
   title: string
   visible: boolean
   children: ReactNode

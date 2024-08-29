@@ -12,6 +12,7 @@ import {
   Spinner,
   Tab,
   Tabs,
+  TextArea,
 } from '@/components'
 
 const Celebrities = () => {
@@ -76,8 +77,9 @@ const Celebrities = () => {
               label="Editable"
               checked={isChecked}
               onCheck={setIsChecked}
-              disabled={false}
             />
+
+            <TextArea type="text" placeholder="Bio" label="Bio" />
           </form>
         </Modal>
         <Button shape="rounded" disabled={loading} onClick={showModal}>

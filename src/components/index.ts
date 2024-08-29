@@ -10,6 +10,7 @@ import Spinner from './Spinner'
 import Tab from './Tab'
 import TabHeader from './TabHeader'
 import Tabs from './Tabs'
+import TextArea from './TextArea'
 
 export {
   Button,
@@ -24,4 +25,5 @@ export {
   Tab,
   TabHeader,
   Tabs,
+  TextArea,
 }
