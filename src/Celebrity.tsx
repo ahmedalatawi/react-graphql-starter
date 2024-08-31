@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Button, Checkbox, Input, Modal, Spinner, TextArea } from '@/components'
 import { useCelebrityQuery, type CelebrityFragment } from '@/generated/graphql'
+import { formatDateForInput } from '@/utils/formatDate'
 
 type CelebrityKeys = keyof CelebrityFragment
 
@@ -17,7 +18,15 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
     skip: !celebrityId,
   })
 
-  const [celebrity, setCelebrity] = useState<CelebrityFragment | null>(null)
+  const [celebrity, setCelebrity] = useState<CelebrityFragment>({
+    id: '',
+    name: '',
+    bio: '',
+    dateOfBirth: '',
+    birthPlace: '',
+    editable: true,
+    photoUrl: '',
+  })
 
   console.log('celebrity: ', celebrity)
 
@@ -32,14 +41,10 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   ) => {
     const value = e.currentTarget.value
 
-    setCelebrity((currentValue) =>
-      currentValue
-        ? {
-            ...currentValue,
-            [key]: value,
-          }
-        : null
-    )
+    setCelebrity((currentValue) => ({
+      ...currentValue,
+      [key]: value,
+    }))
   }
 
   return (
@@ -59,7 +64,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
         </div>
       }
     >
-      {loading || (!celebrity && !error) ? (
+      {loading ? (
         <div className="spinner-container">
           <Spinner />
         </div>
@@ -71,10 +76,15 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             type="text"
             placeholder="Name"
             label="Name"
-            value={celebrity?.name}
+            value={celebrity.name}
             onChange={(e) => handleUpdateCelebrity(e, 'name')}
           />
-          <Input type="date" label="Birth date" />
+          <Input
+            type="date"
+            label="Birth date"
+            value={formatDateForInput(celebrity.dateOfBirth)}
+            onChange={(e) => handleUpdateCelebrity(e, 'dateOfBirth')}
+          />
           <Input
             type="text"
             placeholder="City, state, country"
