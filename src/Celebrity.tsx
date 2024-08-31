@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Button, Checkbox, Input, Modal, Spinner, TextArea } from '@/components'
 import { useCelebrityQuery, type CelebrityFragment } from '@/generated/graphql'
 import { formatDateForInput } from '@/utils/formatDate'
+import { isValidBirthDate, isValidName } from '@/utils/validations'
 
 type CelebrityKeys = keyof CelebrityFragment
 
@@ -21,6 +22,11 @@ const newCelebrity = {
   photoUrl: '',
 }
 
+const validationDefault = {
+  key: '' as CelebrityKeys,
+  value: '',
+}
+
 const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   const { data, loading, error } = useCelebrityQuery({
     variables: { id: celebrityId! },
@@ -28,8 +34,10 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   })
 
   const [celebrity, setCelebrity] = useState<CelebrityFragment>(newCelebrity)
-
-  console.log('celebrity: ', celebrity)
+  const [validationError, setValidationError] = useState<{
+    key: CelebrityKeys
+    value: string
+  }>(validationDefault)
 
   useEffect(() => {
     const celebrity = data?.celebrity
@@ -47,6 +55,36 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       ...currentValue,
       [key]: value,
     }))
+
+    setValidationError(validationDefault)
+  }
+
+  const handleCloseModal = () => {
+    onHideModal()
+    setValidationError(validationDefault)
+  }
+
+  const handleSaveCelebrity = async () => {
+    console.log('celebrity: ', celebrity)
+    const { name, dateOfBirth } = celebrity
+
+    if (!name.trim())
+      setValidationError({ key: 'name', value: 'Name is required' })
+    else if (!isValidName(name))
+      setValidationError({
+        key: 'name',
+        value: 'Name must contain only alphabetic characters',
+      })
+    else if (!dateOfBirth)
+      setValidationError({
+        key: 'dateOfBirth',
+        value: 'Date of birth is required',
+      })
+    else if (!isValidBirthDate(dateOfBirth))
+      setValidationError({
+        key: 'dateOfBirth',
+        value: 'Date of birth can not be in the future',
+      })
   }
 
   return (
@@ -54,13 +92,18 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       modalStyles={{ width: '32rem' }}
       title="Add celebrity"
       visible={showModal}
-      onClose={onHideModal}
+      onClose={handleCloseModal}
       footer={
         <div className="modal-footer">
-          <Button size="sm" shape="rounded" onClick={onHideModal}>
+          <Button size="sm" shape="rounded" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" size="sm" shape="rounded">
+          <Button
+            variant="primary"
+            size="sm"
+            shape="rounded"
+            onClick={handleSaveCelebrity}
+          >
             Save
           </Button>
         </div>
@@ -78,12 +121,17 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             type="text"
             placeholder="Name"
             label="Name"
+            error={validationError.key === 'name' ? validationError.value : ''}
             value={celebrity.name}
             onChange={(e) => handleUpdateCelebrity(e, 'name')}
           />
           <Input
             type="date"
             label="Birth date"
+            max={formatDateForInput(new Date().toISOString())}
+            error={
+              validationError.key === 'dateOfBirth' ? validationError.value : ''
+            }
             value={formatDateForInput(celebrity.dateOfBirth)}
             onChange={(e) => handleUpdateCelebrity(e, 'dateOfBirth')}
           />
@@ -104,14 +152,14 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
 
           <Checkbox
             label="Editable"
-            disabled={!celebrity.editable}
             checked={celebrity.editable ?? true}
-            onCheck={(checked) =>
+            onCheck={(checked) => {
               setCelebrity((currentValue) => ({
                 ...currentValue,
                 editable: checked,
               }))
-            }
+              setValidationError(validationDefault)
+            }}
           />
 
           <TextArea
