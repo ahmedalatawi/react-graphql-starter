@@ -7,7 +7,5 @@ export const formatDate = (date: string) => {
   })
 }
 
-export const formatDateForInput = (date: string) => {
-  const d = date ? new Date(date) : new Date()
-  return d.toISOString().split('T')[0]
-}
+export const formatDateForInput = (date: string) =>
+  date ? new Date(date).toISOString().split('T')[0] : ''

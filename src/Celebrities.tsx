@@ -45,7 +45,10 @@ const Celebrities = () => {
         <Button
           shape="rounded"
           disabled={loading}
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setSelectedCelebrity(null)
+            setShowModal(true)
+          }}
         >
           Add celebrity
         </Button>

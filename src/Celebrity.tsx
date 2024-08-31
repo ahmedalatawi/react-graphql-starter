@@ -11,27 +11,30 @@ interface Props {
   onHideModal: () => void
 }
 
+const newCelebrity = {
+  id: '',
+  name: '',
+  bio: '',
+  dateOfBirth: '',
+  birthPlace: '',
+  editable: true,
+  photoUrl: '',
+}
+
 const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   const { data, loading, error } = useCelebrityQuery({
     variables: { id: celebrityId! },
     skip: !celebrityId,
   })
 
-  const [celebrity, setCelebrity] = useState<CelebrityFragment>({
-    id: '',
-    name: '',
-    bio: '',
-    dateOfBirth: '',
-    birthPlace: '',
-    editable: true,
-    photoUrl: '',
-  })
+  const [celebrity, setCelebrity] = useState<CelebrityFragment>(newCelebrity)
 
   console.log('celebrity: ', celebrity)
 
   useEffect(() => {
     const celebrity = data?.celebrity
     if (celebrity) setCelebrity(celebrity)
+    else setCelebrity(newCelebrity)
   }, [data])
 
   const handleUpdateCelebrity = (
