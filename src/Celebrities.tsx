@@ -1,4 +1,7 @@
-import { useCelebritiesQuery } from '@/generated/graphql'
+import {
+  useCelebritiesQuery,
+  type CelebrityFragment,
+} from '@/generated/graphql'
 import { useCallback, useState } from 'react'
 import type { Item } from '@/types'
 import { formatDate } from '@/utils/formatDate'
@@ -8,11 +11,14 @@ import Celebrity from '@/Celebrity'
 const Celebrities = () => {
   const { data, loading, error } = useCelebritiesQuery()
   const [showModal, setShowModal] = useState(false)
+  const [selectedCelebrity, setSelectedCelebrity] =
+    useState<CelebrityFragment | null>(null)
 
   console.log(data)
 
   const handleSelect = useCallback((item: Item) => {
-    console.log(item)
+    setSelectedCelebrity(item as CelebrityFragment)
+    setShowModal(true)
   }, [])
 
   const celebrities = data?.celebrities
@@ -32,6 +38,7 @@ const Celebrities = () => {
       <div className="header">
         <h1 className="title">Celebrities</h1>
         <Celebrity
+          celebrityId={selectedCelebrity?.id}
           showModal={showModal}
           onHideModal={() => setShowModal(false)}
         />

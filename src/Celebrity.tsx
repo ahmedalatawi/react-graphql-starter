@@ -1,13 +1,46 @@
-import { useState } from 'react'
-import { Button, Checkbox, Input, Modal, TextArea } from '@/components'
+import { useEffect, useState, type FormEvent } from 'react'
+import { Button, Checkbox, Input, Modal, Spinner, TextArea } from '@/components'
+import { useCelebrityQuery, type CelebrityFragment } from '@/generated/graphql'
+
+type CelebrityKeys = keyof CelebrityFragment
 
 interface Props {
+  celebrityId?: string
   showModal: boolean
   onHideModal: () => void
 }
 
-const Celebrity = ({ showModal, onHideModal }: Props) => {
+const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   const [isChecked, setIsChecked] = useState(false)
+  const { data, loading, error } = useCelebrityQuery({
+    variables: { id: celebrityId! },
+    skip: !celebrityId,
+  })
+
+  const [celebrity, setCelebrity] = useState<CelebrityFragment | null>(null)
+
+  console.log('celebrity: ', celebrity)
+
+  useEffect(() => {
+    const celebrity = data?.celebrity
+    if (celebrity) setCelebrity(celebrity)
+  }, [data])
+
+  const handleUpdateCelebrity = (
+    e: FormEvent<HTMLInputElement>,
+    key: CelebrityKeys
+  ) => {
+    const value = e.currentTarget.value
+
+    setCelebrity((currentValue) =>
+      currentValue
+        ? {
+            ...currentValue,
+            [key]: value,
+          }
+        : null
+    )
+  }
 
   return (
     <Modal
@@ -26,20 +59,38 @@ const Celebrity = ({ showModal, onHideModal }: Props) => {
         </div>
       }
     >
-      <form className="celebrity-form">
-        <Input type="text" placeholder="Name" label="Name" />
-        <Input type="date" label="Birth date" />
-        <Input
-          type="text"
-          placeholder="City, state, country"
-          label="Birth place"
-        />
-        <Input type="text" placeholder="Photo link" label="Photo url" />
+      {loading || (!celebrity && !error) ? (
+        <div className="spinner-container">
+          <Spinner />
+        </div>
+      ) : error ? (
+        <p>Error: {error.message}</p>
+      ) : (
+        <form className="celebrity-form">
+          <Input
+            type="text"
+            placeholder="Name"
+            label="Name"
+            value={celebrity?.name}
+            onChange={(e) => handleUpdateCelebrity(e, 'name')}
+          />
+          <Input type="date" label="Birth date" />
+          <Input
+            type="text"
+            placeholder="City, state, country"
+            label="Birth place"
+          />
+          <Input type="text" placeholder="Photo link" label="Photo url" />
 
-        <Checkbox label="Editable" checked={isChecked} onCheck={setIsChecked} />
+          <Checkbox
+            label="Editable"
+            checked={isChecked}
+            onCheck={setIsChecked}
+          />
 
-        <TextArea type="text" placeholder="Bio" label="Bio" />
-      </form>
+          <TextArea type="text" placeholder="Bio" label="Bio" />
+        </form>
+      )}
     </Modal>
   )
 }
