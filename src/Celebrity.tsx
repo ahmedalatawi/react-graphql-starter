@@ -12,7 +12,6 @@ interface Props {
 }
 
 const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
-  const [isChecked, setIsChecked] = useState(false)
   const { data, loading, error } = useCelebrityQuery({
     variables: { id: celebrityId! },
     skip: !celebrityId,
@@ -36,7 +35,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   }, [data])
 
   const handleUpdateCelebrity = (
-    e: FormEvent<HTMLInputElement>,
+    e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: CelebrityKeys
   ) => {
     const value = e.currentTarget.value
@@ -89,16 +88,36 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             type="text"
             placeholder="City, state, country"
             label="Birth place"
+            value={celebrity.birthPlace ?? ''}
+            onChange={(e) => handleUpdateCelebrity(e, 'birthPlace')}
           />
-          <Input type="text" placeholder="Photo link" label="Photo url" />
+          <Input
+            type="text"
+            placeholder="Photo link"
+            label="Photo url"
+            value={celebrity.photoUrl ?? ''}
+            onChange={(e) => handleUpdateCelebrity(e, 'photoUrl')}
+          />
 
           <Checkbox
             label="Editable"
-            checked={isChecked}
-            onCheck={setIsChecked}
+            disabled={!celebrity.editable}
+            checked={celebrity.editable ?? true}
+            onCheck={(checked) =>
+              setCelebrity((currentValue) => ({
+                ...currentValue,
+                editable: checked,
+              }))
+            }
           />
 
-          <TextArea type="text" placeholder="Bio" label="Bio" />
+          <TextArea
+            type="text"
+            placeholder="Bio"
+            label="Bio"
+            value={celebrity.bio ?? ''}
+            onChange={(e) => handleUpdateCelebrity(e, 'bio')}
+          />
         </form>
       )}
     </Modal>
