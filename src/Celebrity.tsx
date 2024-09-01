@@ -6,6 +6,7 @@ import {
   isValidBirthDate,
   isValidBirthPlace,
   isValidName,
+  isValidUrl,
 } from '@/utils/validations'
 
 type CelebrityKeys = keyof CelebrityFragment
@@ -70,7 +71,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
 
   const handleSaveCelebrity = async () => {
     console.log('celebrity: ', celebrity)
-    const { name, dateOfBirth, birthPlace } = celebrity
+    const { name, dateOfBirth, birthPlace, photoUrl } = celebrity
 
     if (!name.trim())
       setValidationError({ key: 'name', value: 'Name is required' })
@@ -94,6 +95,11 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
         key: 'birthPlace',
         value:
           'Place of birth must be valid (only letters and commas are allowed)',
+      })
+    else if (photoUrl?.trim() && !isValidUrl(photoUrl))
+      setValidationError({
+        key: 'photoUrl',
+        value: 'Must be a valid URL',
       })
   }
 
@@ -160,6 +166,9 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             placeholder="Photo link"
             label="Photo url"
             value={celebrity.photoUrl ?? ''}
+            error={
+              validationError.key === 'photoUrl' ? validationError.value : ''
+            }
             onChange={(e) => handleUpdateCelebrity(e, 'photoUrl')}
           />
 
