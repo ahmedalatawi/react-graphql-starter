@@ -2,7 +2,11 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Button, Checkbox, Input, Modal, Spinner, TextArea } from '@/components'
 import { useCelebrityQuery, type CelebrityFragment } from '@/generated/graphql'
 import { formatDateForInput } from '@/utils/formatDate'
-import { isValidBirthDate, isValidName } from '@/utils/validations'
+import {
+  isValidBirthDate,
+  isValidBirthPlace,
+  isValidName,
+} from '@/utils/validations'
 
 type CelebrityKeys = keyof CelebrityFragment
 
@@ -66,7 +70,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
 
   const handleSaveCelebrity = async () => {
     console.log('celebrity: ', celebrity)
-    const { name, dateOfBirth } = celebrity
+    const { name, dateOfBirth, birthPlace } = celebrity
 
     if (!name.trim())
       setValidationError({ key: 'name', value: 'Name is required' })
@@ -84,6 +88,12 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       setValidationError({
         key: 'dateOfBirth',
         value: 'Date of birth can not be in the future',
+      })
+    else if (birthPlace?.trim() && !isValidBirthPlace(birthPlace))
+      setValidationError({
+        key: 'birthPlace',
+        value:
+          'Place of birth must be valid (only letters and commas are allowed)',
       })
   }
 
@@ -140,6 +150,9 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             placeholder="City, state, country"
             label="Birth place"
             value={celebrity.birthPlace ?? ''}
+            error={
+              validationError.key === 'birthPlace' ? validationError.value : ''
+            }
             onChange={(e) => handleUpdateCelebrity(e, 'birthPlace')}
           />
           <Input

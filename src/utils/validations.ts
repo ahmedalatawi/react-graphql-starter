@@ -6,3 +6,6 @@ export const isValidBirthDate = (date: string) => {
 
   return birthDate <= currentDate
 }
+
+export const isValidBirthPlace = (place: string) =>
+  /^[a-zA-Z\s/,]+$/.test(place)
