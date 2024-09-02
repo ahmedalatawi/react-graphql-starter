@@ -6,3 +6,9 @@ mutation createCelebrity($celebrity: CreateCelebrityInput!) {
     name
   }
 }
+
+mutation deleteCelebrity($id: ID!) {
+  deleteCelebrity(id: $id) {
+    id
+  }
+}

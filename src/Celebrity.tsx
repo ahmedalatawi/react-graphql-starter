@@ -51,6 +51,8 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
     value: string
   }>(validationDefault)
 
+  const isNewCelebrity = !celebrity.id
+
   useEffect(() => {
     const celebrity = data?.celebrity
     if (celebrity) setCelebrity(celebrity)
@@ -141,8 +143,13 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       onClose={handleCloseModal}
       footer={
         <div className="modal-footer">
-          <Button size="sm" shape="rounded" onClick={handleCloseModal}>
-            Cancel
+          <Button
+            size="sm"
+            shape="rounded"
+            variant={isNewCelebrity ? undefined : 'danger'}
+            onClick={handleCloseModal}
+          >
+            {isNewCelebrity ? 'Cancel' : 'Delete'}
           </Button>
           <Button
             variant="primary"

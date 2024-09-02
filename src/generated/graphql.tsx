@@ -96,6 +96,13 @@ export type CreateCelebrityMutationVariables = Exact<{
 
 export type CreateCelebrityMutation = { __typename?: 'Mutation', createCelebrity?: { __typename?: 'Celebrity', id: string, name: string } | null };
 
+export type DeleteCelebrityMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteCelebrityMutation = { __typename?: 'Mutation', deleteCelebrity?: { __typename?: 'Celebrity', id: string } | null };
+
 export type CelebritiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -153,6 +160,39 @@ export function useCreateCelebrityMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateCelebrityMutationHookResult = ReturnType<typeof useCreateCelebrityMutation>;
 export type CreateCelebrityMutationResult = Apollo.MutationResult<CreateCelebrityMutation>;
 export type CreateCelebrityMutationOptions = Apollo.BaseMutationOptions<CreateCelebrityMutation, CreateCelebrityMutationVariables>;
+export const DeleteCelebrityDocument = gql`
+    mutation deleteCelebrity($id: ID!) {
+  deleteCelebrity(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteCelebrityMutationFn = Apollo.MutationFunction<DeleteCelebrityMutation, DeleteCelebrityMutationVariables>;
+
+/**
+ * __useDeleteCelebrityMutation__
+ *
+ * To run a mutation, you first call `useDeleteCelebrityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCelebrityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCelebrityMutation, { data, loading, error }] = useDeleteCelebrityMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCelebrityMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCelebrityMutation, DeleteCelebrityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCelebrityMutation, DeleteCelebrityMutationVariables>(DeleteCelebrityDocument, options);
+      }
+export type DeleteCelebrityMutationHookResult = ReturnType<typeof useDeleteCelebrityMutation>;
+export type DeleteCelebrityMutationResult = Apollo.MutationResult<DeleteCelebrityMutation>;
+export type DeleteCelebrityMutationOptions = Apollo.BaseMutationOptions<DeleteCelebrityMutation, DeleteCelebrityMutationVariables>;
 export const CelebritiesDocument = gql`
     query celebrities {
   celebrities {
