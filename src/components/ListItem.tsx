@@ -9,7 +9,8 @@ interface Props {
 
 const ListItem = memo(({ item, onClick }: Props) => (
   <li className="app-list-item" onClick={() => onClick(item)}>
-    <span>{item.name}</span>, from {item.birthPlace}, age{' '}
+    <span>{item.name}</span>
+    {item.birthPlace && `, born in ${item.birthPlace}`}, age{' '}
     {getAge(item.dateOfBirth)}
   </li>
 ))

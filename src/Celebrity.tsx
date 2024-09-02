@@ -1,6 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Button, Checkbox, Input, Modal, Spinner, TextArea } from '@/components'
-import { useCelebrityQuery, type CelebrityFragment } from '@/generated/graphql'
+import {
+  CelebritiesDocument,
+  useCelebrityQuery,
+  useCreateCelebrityMutation,
+  type CelebrityFragment,
+} from '@/generated/graphql'
 import { formatDateForInput } from '@/utils/formatDate'
 import {
   isValidBirthDate,
@@ -37,6 +42,8 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
     variables: { id: celebrityId! },
     skip: !celebrityId,
   })
+  const [createCelebrity, { loading: createCelebrityLoading }] =
+    useCreateCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
 
   const [celebrity, setCelebrity] = useState<CelebrityFragment>(newCelebrity)
   const [validationError, setValidationError] = useState<{
@@ -73,34 +80,57 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
     console.log('celebrity: ', celebrity)
     const { name, dateOfBirth, birthPlace, photoUrl } = celebrity
 
-    if (!name.trim())
+    let isFormValid = true
+
+    if (!name.trim()) {
       setValidationError({ key: 'name', value: 'Name is required' })
-    else if (!isValidName(name))
+      isFormValid = false
+    } else if (!isValidName(name)) {
       setValidationError({
         key: 'name',
         value: 'Name must contain only alphabetic characters',
       })
-    else if (!dateOfBirth)
+      isFormValid = false
+    } else if (!dateOfBirth) {
       setValidationError({
         key: 'dateOfBirth',
         value: 'Date of birth is required',
       })
-    else if (!isValidBirthDate(dateOfBirth))
+      isFormValid = false
+    } else if (!isValidBirthDate(dateOfBirth)) {
       setValidationError({
         key: 'dateOfBirth',
         value: 'Date of birth can not be in the future',
       })
-    else if (birthPlace?.trim() && !isValidBirthPlace(birthPlace))
+      isFormValid = false
+    } else if (birthPlace?.trim() && !isValidBirthPlace(birthPlace)) {
       setValidationError({
         key: 'birthPlace',
         value:
           'Place of birth must be valid (only letters and commas are allowed)',
       })
-    else if (photoUrl?.trim() && !isValidUrl(photoUrl))
+      isFormValid = false
+    } else if (photoUrl?.trim() && !isValidUrl(photoUrl)) {
       setValidationError({
         key: 'photoUrl',
         value: 'Must be a valid URL',
       })
+      isFormValid = false
+    }
+
+    if (isFormValid) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...newCelebrity } = celebrity
+
+        await createCelebrity({ variables: { celebrity: newCelebrity } })
+
+        handleCloseModal()
+      } catch (error) {
+        console.error('createCelebrity: ', error)
+        alert('Error creating celebrity!')
+      }
+    }
   }
 
   return (
@@ -118,6 +148,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             variant="primary"
             size="sm"
             shape="rounded"
+            disabled={createCelebrityLoading}
             onClick={handleSaveCelebrity}
           >
             Save
