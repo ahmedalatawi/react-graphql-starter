@@ -94,14 +94,14 @@ export type CreateCelebrityMutationVariables = Exact<{
 }>;
 
 
-export type CreateCelebrityMutation = { __typename?: 'Mutation', createCelebrity?: { __typename?: 'Celebrity', id: string, name: string } | null };
+export type CreateCelebrityMutation = { __typename?: 'Mutation', createCelebrity?: { __typename?: 'Celebrity', id: string, name: string, bio?: string | null, dateOfBirth: any, birthPlace?: string | null, photoUrl?: string | null, editable?: boolean | null } | null };
 
 export type DeleteCelebrityMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteCelebrityMutation = { __typename?: 'Mutation', deleteCelebrity?: { __typename?: 'Celebrity', id: string } | null };
+export type DeleteCelebrityMutation = { __typename?: 'Mutation', deleteCelebrity?: { __typename?: 'Celebrity', id: string, name: string, bio?: string | null, dateOfBirth: any, birthPlace?: string | null, photoUrl?: string | null, editable?: boolean | null } | null };
 
 export type CelebritiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -129,11 +129,10 @@ export const CelebrityFragmentDoc = gql`
 export const CreateCelebrityDocument = gql`
     mutation createCelebrity($celebrity: CreateCelebrityInput!) {
   createCelebrity(celebrity: $celebrity) {
-    id
-    name
+    ...Celebrity
   }
 }
-    `;
+    ${CelebrityFragmentDoc}`;
 export type CreateCelebrityMutationFn = Apollo.MutationFunction<CreateCelebrityMutation, CreateCelebrityMutationVariables>;
 
 /**
@@ -163,10 +162,10 @@ export type CreateCelebrityMutationOptions = Apollo.BaseMutationOptions<CreateCe
 export const DeleteCelebrityDocument = gql`
     mutation deleteCelebrity($id: ID!) {
   deleteCelebrity(id: $id) {
-    id
+    ...Celebrity
   }
 }
-    `;
+    ${CelebrityFragmentDoc}`;
 export type DeleteCelebrityMutationFn = Apollo.MutationFunction<DeleteCelebrityMutation, DeleteCelebrityMutationVariables>;
 
 /**

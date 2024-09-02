@@ -4,6 +4,7 @@ import {
   CelebritiesDocument,
   useCelebrityQuery,
   useCreateCelebrityMutation,
+  useDeleteCelebrityMutation,
   type CelebrityFragment,
 } from '@/generated/graphql'
 import { formatDateForInput } from '@/utils/formatDate'
@@ -44,6 +45,8 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   })
   const [createCelebrity, { loading: createCelebrityLoading }] =
     useCreateCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
+  const [deleteCelebrity, { loading: deleteCelebrityLoading }] =
+    useDeleteCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
 
   const [celebrity, setCelebrity] = useState<CelebrityFragment>(newCelebrity)
   const [validationError, setValidationError] = useState<{
@@ -73,9 +76,18 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
     setValidationError(validationDefault)
   }
 
-  const handleCloseModal = () => {
-    onHideModal()
+  const handleCloseModal = async (isDelete?: boolean) => {
     setValidationError(validationDefault)
+    if (isDelete) {
+      if (confirm('Are you sure you want to delete this celebrity?'))
+        try {
+          await deleteCelebrity({ variables: { id: celebrity.id } })
+          onHideModal()
+        } catch (error) {
+          console.error('deleteCelebrity: ', error)
+          alert('Failed to delete celebrity!')
+        }
+    } else onHideModal()
   }
 
   const handleSaveCelebrity = async () => {
@@ -140,14 +152,15 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       modalStyles={{ width: '32rem' }}
       title="Add celebrity"
       visible={showModal}
-      onClose={handleCloseModal}
+      onClose={() => handleCloseModal(false)}
       footer={
         <div className="modal-footer">
           <Button
             size="sm"
             shape="rounded"
+            disabled={deleteCelebrityLoading}
             variant={isNewCelebrity ? undefined : 'danger'}
-            onClick={handleCloseModal}
+            onClick={() => handleCloseModal(!isNewCelebrity)}
           >
             {isNewCelebrity ? 'Cancel' : 'Delete'}
           </Button>

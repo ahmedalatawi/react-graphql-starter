@@ -2,13 +2,12 @@
 
 mutation createCelebrity($celebrity: CreateCelebrityInput!) {
   createCelebrity(celebrity: $celebrity) {
-    id
-    name
+    ...Celebrity
   }
 }
 
 mutation deleteCelebrity($id: ID!) {
   deleteCelebrity(id: $id) {
-    id
+    ...Celebrity
   }
 }
