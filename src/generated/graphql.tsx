@@ -96,6 +96,13 @@ export type CreateCelebrityMutationVariables = Exact<{
 
 export type CreateCelebrityMutation = { __typename?: 'Mutation', createCelebrity?: { __typename?: 'Celebrity', id: string, name: string, bio?: string | null, dateOfBirth: any, birthPlace?: string | null, photoUrl?: string | null, editable?: boolean | null } | null };
 
+export type UpdateCelebrityMutationVariables = Exact<{
+  celebrity: UpdateCelebrityInput;
+}>;
+
+
+export type UpdateCelebrityMutation = { __typename?: 'Mutation', updateCelebrity?: { __typename?: 'Celebrity', id: string, name: string, bio?: string | null, dateOfBirth: any, birthPlace?: string | null, photoUrl?: string | null, editable?: boolean | null } | null };
+
 export type DeleteCelebrityMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -159,6 +166,39 @@ export function useCreateCelebrityMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateCelebrityMutationHookResult = ReturnType<typeof useCreateCelebrityMutation>;
 export type CreateCelebrityMutationResult = Apollo.MutationResult<CreateCelebrityMutation>;
 export type CreateCelebrityMutationOptions = Apollo.BaseMutationOptions<CreateCelebrityMutation, CreateCelebrityMutationVariables>;
+export const UpdateCelebrityDocument = gql`
+    mutation updateCelebrity($celebrity: UpdateCelebrityInput!) {
+  updateCelebrity(celebrity: $celebrity) {
+    ...Celebrity
+  }
+}
+    ${CelebrityFragmentDoc}`;
+export type UpdateCelebrityMutationFn = Apollo.MutationFunction<UpdateCelebrityMutation, UpdateCelebrityMutationVariables>;
+
+/**
+ * __useUpdateCelebrityMutation__
+ *
+ * To run a mutation, you first call `useUpdateCelebrityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCelebrityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCelebrityMutation, { data, loading, error }] = useUpdateCelebrityMutation({
+ *   variables: {
+ *      celebrity: // value for 'celebrity'
+ *   },
+ * });
+ */
+export function useUpdateCelebrityMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCelebrityMutation, UpdateCelebrityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCelebrityMutation, UpdateCelebrityMutationVariables>(UpdateCelebrityDocument, options);
+      }
+export type UpdateCelebrityMutationHookResult = ReturnType<typeof useUpdateCelebrityMutation>;
+export type UpdateCelebrityMutationResult = Apollo.MutationResult<UpdateCelebrityMutation>;
+export type UpdateCelebrityMutationOptions = Apollo.BaseMutationOptions<UpdateCelebrityMutation, UpdateCelebrityMutationVariables>;
 export const DeleteCelebrityDocument = gql`
     mutation deleteCelebrity($id: ID!) {
   deleteCelebrity(id: $id) {

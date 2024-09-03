@@ -6,6 +6,12 @@ mutation createCelebrity($celebrity: CreateCelebrityInput!) {
   }
 }
 
+mutation updateCelebrity($celebrity: UpdateCelebrityInput!) {
+  updateCelebrity(celebrity: $celebrity) {
+    ...Celebrity
+  }
+}
+
 mutation deleteCelebrity($id: ID!) {
   deleteCelebrity(id: $id) {
     ...Celebrity
