@@ -5,6 +5,7 @@ import {
   useCelebrityQuery,
   useCreateCelebrityMutation,
   useDeleteCelebrityMutation,
+  useUpdateCelebrityMutation,
   type CelebrityFragment,
 } from '@/generated/graphql'
 import { formatDateForInput } from '@/utils/formatDate'
@@ -45,6 +46,8 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
   })
   const [createCelebrity, { loading: createCelebrityLoading }] =
     useCreateCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
+  const [updateCelebrity, { loading: updateCelebrityLoading }] =
+    useUpdateCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
   const [deleteCelebrity, { loading: deleteCelebrityLoading }] =
     useDeleteCelebrityMutation({ refetchQueries: [CelebritiesDocument] })
 
@@ -136,8 +139,13 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id, ...newCelebrity } = celebrity
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { __typename, editable, ...existingCelebrity } = celebrity
 
-        await createCelebrity({ variables: { celebrity: newCelebrity } })
+        if (isNewCelebrity)
+          await createCelebrity({ variables: { celebrity: newCelebrity } })
+        else
+          await updateCelebrity({ variables: { celebrity: existingCelebrity } })
 
         handleCloseModal()
       } catch (error) {
@@ -168,7 +176,7 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
             variant="primary"
             size="sm"
             shape="rounded"
-            disabled={createCelebrityLoading}
+            disabled={createCelebrityLoading || updateCelebrityLoading}
             onClick={handleSaveCelebrity}
           >
             Save
