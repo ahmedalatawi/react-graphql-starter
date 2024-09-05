@@ -148,9 +148,9 @@ const Celebrity = ({ celebrityId, showModal, onHideModal }: Props) => {
           await updateCelebrity({ variables: { celebrity: existingCelebrity } })
 
         handleCloseModal()
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('createCelebrity: ', error)
-        alert('Error creating celebrity!')
+        alert(`Error creating celebrity: ${error}`)
       }
     }
   }
