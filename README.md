@@ -1,4 +1,4 @@
-# NodeJS GraphQL Fake API Data Provider
+# React GraphQL Starter Project
 
 ![](https://github.com/AhmedAlatawi/react-graphql-starter/actions/workflows/main.yml/badge.svg)
 
