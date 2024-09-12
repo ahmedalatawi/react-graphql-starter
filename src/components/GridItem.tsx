@@ -1,4 +1,5 @@
 import type { Item } from '@/types'
+import { getAge } from '@/utils/calculateAge'
 
 interface Props {
   item: Item
@@ -12,6 +13,8 @@ function GridItem({ item, onClick }: Props) {
     <div className="app-grid-item" onClick={() => onClick(item)}>
       <img src={photoUrl} alt={name} loading="lazy" />
       <h3>{name}</h3>
+      <p>{item.birthPlace}</p>
+      <p style={{ textTransform: 'none' }}>{getAge(item.dateOfBirth)} y/o</p>
     </div>
   )
 }
