@@ -14,8 +14,6 @@ const Celebrities = () => {
   const [selectedCelebrity, setSelectedCelebrity] =
     useState<CelebrityFragment | null>(null)
 
-  console.log(data)
-
   const handleSelect = useCallback((item: Item) => {
     setSelectedCelebrity(item as CelebrityFragment)
     setShowModal(true)
@@ -63,7 +61,7 @@ const Celebrities = () => {
             <List items={celebrities} onSelect={handleSelect} />
           </Tab>
           <Tab title="Grid view">
-            <Grid items={celebrities} />
+            <Grid items={celebrities} onSelect={handleSelect} />
           </Tab>
         </Tabs>
       )}

@@ -3,12 +3,13 @@ import GridItem from './GridItem'
 
 interface Props {
   items: Item[]
+  onSelect: (item: Item) => void
 }
 
-const Grid = ({ items }: Props) => (
+const Grid = ({ items, onSelect }: Props) => (
   <div className="app-grid">
     {items.map((item) => (
-      <GridItem key={item.id} item={item} />
+      <GridItem key={item.id} item={item} onClick={onSelect} />
     ))}
   </div>
 )

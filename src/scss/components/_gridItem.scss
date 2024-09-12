@@ -6,6 +6,12 @@
   padding: 10px;
   color: $neutral-800;
   text-transform: capitalize;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   img {
     width: 180px;
